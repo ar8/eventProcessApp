@@ -25,13 +25,14 @@ class EventsPanelProvider extends PanelProvider
         return $panel
             ->id('events')
             ->path('events')
+            ->login()
             ->colors([
                 'primary' => Color::Amber,
             ])
             ->discoverResources(in: app_path('Filament/Events/Resources'), for: 'App\\Filament\\Events\\Resources')
             ->discoverPages(in: app_path('Filament/Events/Pages'), for: 'App\\Filament\\Events\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                // Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Events/Widgets'), for: 'App\\Filament\\Events\\Widgets')
             ->widgets([

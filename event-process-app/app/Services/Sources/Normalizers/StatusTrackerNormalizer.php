@@ -5,7 +5,7 @@ namespace App\Services\Sources\Normalizers;
 use App\Services\Sources\Contracts\SourceNormalizer;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 
 /**
  * Class StatusTrackerNormalizer

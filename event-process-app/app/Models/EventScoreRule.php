@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class EventScoreRule extends Model
 {
@@ -88,5 +89,29 @@ class EventScoreRule extends Model
         }
 
         return false;
+    }
+
+    public function getEventScoreRules(array $filters): Builder
+    {
+        $active = $filters['active'] ?? true;
+        $points = $filters['points'] ?? null;
+
+        return self::query()
+            ->select([
+                'id',
+                'field',
+                'operator',
+                'value',
+                'points',
+                'active',
+                'created_at',
+                'updated_at',
+            ])
+            ->orderByDesc('created_at')
+            ->when($active !== null, fn (Builder $q) => $q->where('active', (bool) $active))
+            ->when(
+                $points !== null && $points !== '',
+                fn (Builder $q) => $q->where('points', '=', (int) $points)
+            );
     }
 }

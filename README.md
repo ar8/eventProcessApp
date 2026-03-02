@@ -32,7 +32,7 @@ Build a Laravel application that receives webhook events from external sources, 
     -  `npm run dev`
     -  `npm run build`
 - access 
-    - `http://127.0.0.1:8000/events`
+    - `http://127.0.0.1:8000/events/events-dashboard`
 
 
 - NOTES: 
