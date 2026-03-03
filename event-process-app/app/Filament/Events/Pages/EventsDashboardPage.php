@@ -24,9 +24,9 @@ class EventsDashboardPage extends Page implements HasForms
 
     public array $filters = [];
     private array $types = [
-        'form_submission' => 'Form Submission',
-        'payment_transaction' => 'Payment',
-        'status_update' => 'Status Tracker',
+        'form_provider' => 'Form Provider',
+        'payment_gateway' => 'Payment Gateway',
+        'status_tracker' => 'Status Tracker',
     ];
 
     public function mount(): void

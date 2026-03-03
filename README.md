@@ -67,6 +67,8 @@ Build a Laravel application that receives webhook events from external sources, 
 - Job commands
     - verify queue worker runner: `docker compose exec app php artisan queue:work`
     - trigger the job again: `docker compose exec app php artisan queue:retry all`
+    - scores can be assign in the events list as well in the score button.
+    - create rule button is for display only
 
 
 # CODE STRUCTURE
