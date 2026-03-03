@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Create the 'events' table if it doesn't exist
         Schema::create('events', function (Blueprint $table) {
             $table->id()->autoIncrement()->primary();
             $table->uuid('uuid')->unique();
@@ -22,6 +23,7 @@ return new class extends Migration
             $table->json('raw_payload');
             $table->json('normalized_payload')->nullable();
             $table->timestamp('occurred_at')->nullable();
+            $table->json('enrichment')->nullable();
             $table->text('error')->nullable();
             $table->timestamps(); // created_at, updated_at
         });

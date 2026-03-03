@@ -79,6 +79,11 @@ class EventScoreRulesPage extends Page implements HasForms
             Action::make('apply')
                 ->label('Apply')
                 ->action('applyFilters'),
+            
+            Action::make('create')
+                ->label('Create Rule')
+                //  TODO: create the create page and link it here
+                // ->url(route('filament.resources.event-score-rules.create')),
         ];
     }
 

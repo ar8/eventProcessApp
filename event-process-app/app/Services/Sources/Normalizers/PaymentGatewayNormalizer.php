@@ -67,17 +67,16 @@ class PaymentGatewayNormalizer implements SourceNormalizer
         $normalizedData = ['provider' => $payload['transaction']['provider']];
         $normalizedData['amount'] = $payload['transaction']['amount_cents'] / 100; // Convert cents to dollars
         $normalizedData['currency'] = $payload['transaction']['currency'];
-        $normalizedData['status'] = $payload['transaction']['status'];
+        $normalizedData['transaction_status'] = $payload['transaction']['status'];
         $date = isset($payload['transaction']['occurred_at']) ? Carbon::parse($payload['transaction']['occurred_at']) : Carbon::now();
         $normalizedData['occurred_at'] = $date->toISOString();
 
         return [
             'external_id' => $payload['transaction']['id'],
-            'email' => $payload['customer_email'],
             'status' => $payload['transaction']['status'],
             'occurred_at' => $date->toDateTimeString(),
-            'type' => 'payment_transaction',
-            'normalized_data' => $normalizedData, // Store the transaction details in a normalized_data field for further processing and analysis
+            'type' => 'payment_gateway',
+            'normalized_data' => $normalizedData,
         ];
     }
 

@@ -21,7 +21,7 @@ class EventSeeder extends Seeder
             'source' => 'payment_gateway',
             'raw_payload' => ['transaction' => ['id' => 'abc123', 'amount_cents' => 5000, 'currency' => 'USD', 'status' => 'succeeded', 'provider' => 'Stripe', 'occurred_at' => now()->toISOString()], 'customer_email' => 'user@example.com'],
             'status' => 'pending',
-            'type' => 'payment_transaction',
+            'type' => 'payment_gateway',
             'score' => 0,
             'normalized_payload' => ['external_id' => 'abc123', 'email' => 'user@example.com', 'occurred_at' => now()->toDateTimeString(), 'type' => 'payment_transaction', 'score' => 0, 'normalized_data' => ['transaction' => ['id' => 'abc123', 'amount_cents' => 5000, 'currency' => 'USD', 'status' => 'succeeded', 'provider' => 'Stripe', 'occurred_at' => now()->toISOString()]]]
         ]);
@@ -33,9 +33,9 @@ class EventSeeder extends Seeder
             'source' => 'payment_gateway',
             'raw_payload' => ['transaction' => ['id' => 'ghi789', 'amount_cents' => 2000, 'currency' => 'USD', 'status' => 'failed', 'provider' => 'PayPal', 'occurred_at' => now()->toISOString()], 'customer_email' => '', 'normalized_data' => ['transaction' => ['id' => 'ghi789', 'amount_cents' => 2000, 'currency' => 'USD', 'status' => 'failed', 'provider' => 'PayPal', 'occurred_at' => now()->toISOString()]]],
             'status' => 'pending',
-            'type' => 'payment_transaction',
+            'type' => 'payment_gateway',
             'score' => 0,
-            'normalized_payload' => ['external_id' => 'ghi789', 'email' => '', 'occurred_at' => now()->toDateTimeString(), 'type' => 'payment_transaction', 'score' => 0, 'normalized_data' => ['transaction' => ['id' => 'ghi789', 'amount_cents' => 2000, 'currency' => 'USD', 'status' => 'failed', 'provider' => 'PayPal']]]
+            'normalized_payload' => ['external_id' => 'ghi789', 'email' => '', 'occurred_at' => now()->toDateTimeString(), 'type' => 'payment_gateway', 'score' => 0, 'normalized_data' => ['transaction' => ['id' => 'ghi789', 'amount_cents' => 2000, 'currency' => 'USD', 'status' => 'failed', 'provider' => 'PayPal']]]
         ]); 
 
         // form submission event product interested
@@ -45,9 +45,9 @@ class EventSeeder extends Seeder
                 'source' => 'form_provider',
                 'raw_payload' => ['submission_id' => 'def456', 'email' => 'user@example.com', 'answers' => ['budget' => 1000, 'timeline' => 'Q3 2024', 'interested_in' => ['product_a', 'product_b']], 'submitted_at' => now()->toISOString(), 'metadata' => ['source' => 'typeform', 'form_id' => 'form_456']],
                 'status' => 'pending',
-                'type' => 'form_submission',
+                'type' => 'form_provider',
                 'score' => 0,
-                'normalized_payload' => ['external_id' => 'def456', 'email' => 'user@example.com', 'occurred_at' => now()->toDateTimeString(), 'type' => 'form_submission', 'score' => 0, 'normalized_data' => ['answers' => ['budget' => 1000, 'timeline' => 'Q3 2024', 'interested_in' => ['product_a', 'product_b']], 'submitted_at' => now()->toISOString()]]
+                'normalized_payload' => ['external_id' => 'def456', 'email' => 'user@example.com', 'occurred_at' => now()->toDateTimeString(), 'type' => 'form_provider', 'score' => 0, 'normalized_data' => ['answers' => ['budget' => 1000, 'timeline' => 'Q3 2024', 'interested_in' => ['product_a', 'product_b']], 'submitted_at' => now()->toISOString()]]
         ]);
 
         // complaint form submission event
@@ -57,9 +57,9 @@ class EventSeeder extends Seeder
             'source' => 'form_provider',
             'raw_payload' => ['submission_id' => 'jkl012', 'email' => 'user@example.com', 'answers' => ['complaint' => 'Product not working as expected'], 'submitted_at' => now()->toISOString(), 'metadata' => ['source' => 'typeform', 'form_id' => 'form_789']],
             'status' => 'pending',
-            'type' => 'form_submission',
+            'type' => 'form_provider',
             'score' => 0,
-            'normalized_payload' => ['external_id' => 'jkl012', 'email' => 'user@example.com', 'occurred_at' => now()->toDateTimeString(), 'type' => 'form_submission', 'score' => 0, 'normalized_data' => ['answers' => ['complaint' => 'Product not working as expected'], 'submitted_at' => now()->toISOString()]]
+            'normalized_payload' => ['external_id' => 'jkl012', 'email' => 'user@example.com', 'occurred_at' => now()->toDateTimeString(), 'type' => 'form_provider', 'score' => 0, 'normalized_data' => ['answers' => ['complaint' => 'Product not working as expected'], 'submitted_at' => now()->toISOString()]]
         ]);
 
         // customer support form submission event
@@ -69,9 +69,9 @@ class EventSeeder extends Seeder
             'source' => 'form_provider',
             'raw_payload' => ['submission_id' => 'mno345', 'email' => 'user@example.com', 'answers' => ['support_request' => 'Need help with product'], 'submitted_at' => now()->toISOString(), 'metadata' => ['source' => 'typeform', 'form_id' => 'form_101']],
             'status' => 'pending',
-            'type' => 'form_submission',
+            'type' => 'form_provider',
             'score' => 0,
-            'normalized_payload' => ['external_id' => 'mno345', 'email' => 'user@example.com', 'occurred_at' => now()->toDateTimeString(), 'type' => 'form_submission', 'score' => 0, 'normalized_data' => ['answers' => ['support_request' => 'Need help with product'], 'submitted_at' => now()->toISOString()]]
+            'normalized_payload' => ['external_id' => 'mno345', 'email' => 'user@example.com', 'occurred_at' => now()->toDateTimeString(), 'type' => 'form_provider', 'score' => 0, 'normalized_data' => ['answers' => ['support_request' => 'Need help with product'], 'submitted_at' => now()->toISOString()]]
         ]);
 
         // shipped order event
@@ -81,9 +81,9 @@ class EventSeeder extends Seeder
             'source' => 'status_tracker',
             'raw_payload' => ['tracking_number' => 'pqr678', 'status' => 'shipped', 'occurred_at' => now()->toISOString(), 'email' => 'user@example.com'],
             'status' => 'pending',
-            'type' => 'order_status',
+            'type' => 'status_tracker',
             'score' => 0,
-            'normalized_payload' => ['external_id' => 'pqr678', 'email' => 'user@example.com', 'occurred_at' => now()->toDateTimeString(), 'type' => 'order_status', 'score' => 0, 'normalized_data' => ['tracking_number' => 'pqr678', 'status' => 'shipped', 'occurred_at' => now()->toISOString()]]
+            'normalized_payload' => ['external_id' => 'pqr678', 'email' => 'user@example.com', 'occurred_at' => now()->toDateTimeString(), 'type' => 'status_tracker', 'score' => 0, 'normalized_data' => ['tracking_number' => 'pqr678', 'status' => 'shipped', 'occurred_at' => now()->toISOString()]]
         ]);
     }
 }

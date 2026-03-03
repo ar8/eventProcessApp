@@ -57,7 +57,9 @@ class WebhookController extends Controller
         $event = Event::create([
             'uuid' => (string) Str::uuid(),
             'external_id' => $externalId,
+            'type' => $source, // For simplicity, using source as type. In real scenarios, this might be more specific.
             'source' => $source,
+            'score' => 0,
             'raw_payload' => $payload,
             'status' => 'received',
             'created_at' => now(),

@@ -24,9 +24,9 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password123'),
         ]);
 
-        // $this->call([
-        //     EventSeeder::class,
-        //     EventScoreRuleSeeder::class,
-        // ]);
+        $this->call([
+            EventSeeder::class,
+            EventScoreRuleSeeder::class,
+        ]);
     }
 }

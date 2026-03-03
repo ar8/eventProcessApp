@@ -1,0 +1,54 @@
+version: '3.9'
+
+volumes:
+  epa_mysql_data:
+  epa_redis_data:
+
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: epa_app
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql
+      - redis
+
+  mysql:
+    image: mysql:8.0
+    container_name: epa_mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: events_db
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: laravel
+    volumes:
+      - epa_mysql_data:/var/lib/mysql
+
+  redis:
+    image: redis:7-alpine
+    container_name: epa_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - epa_redis_data:/data
+
+  node:
+    image: node:20
+    container_name: epa_node
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "5173:5173"
+    command: sh -lc "npm install && npm run dev"
+    depends_on:
+      - app

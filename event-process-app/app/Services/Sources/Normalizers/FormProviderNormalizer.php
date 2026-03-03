@@ -65,13 +65,12 @@ class FormProviderNormalizer implements SourceNormalizer
         // TODO add scoring logic based on the answers provided in the form submission. For example, if the budget is above a certain threshold, or if the timeline is within a specific range, we can assign a higher score to indicate a more promising lead. For now, we'll set a default score of 0.
 
         $date = isset($payload['submitted_at']) ? Carbon::parse($payload['submitted_at']) : Carbon::now();
-        $normializedData = ['answers' => $payload['answers'], 'submitted_at' => $date->toISOString(), 'status' => 'new', 'type' => 'form_submission'];
+        $normializedData = ['answers' => $payload['answers'], 'submitted_at' => $date->toISOString(), 'status' => 'new', 'type' => 'form_provider', 'form_status' =>'new'];
 
         return [
             'external_id' => $payload['submission_id'],
-            'email' => $payload['email'],
             'occurred_at' => $date->toDateTimeString(),
-            'type' => 'form_submission',
+            'type' => 'form_provider',
             'normalized_data' => $normializedData, // Store the answers in a normalized_data field for further processing and analysis
             
         ];

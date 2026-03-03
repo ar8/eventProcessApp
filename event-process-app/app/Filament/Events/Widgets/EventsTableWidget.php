@@ -46,9 +46,9 @@ class EventsTableWidget extends TableWidget
             Tables\Columns\TextColumn::make('source')->label('Source')->sortable(),
             Tables\Columns\TextColumn::make('status')->label('Status')->sortable(),
             Tables\Columns\TextColumn::make('score')->label('Score')->sortable(),
-            // Tables\Columns\TextColumn::make('raw_payload')
-            //     ->label('Payload')
-            //     ->formatStateUsing(fn ($state) => is_scalar($state) ? (string) $state : json_encode($state)),
+            Tables\Columns\TextColumn::make('enrichment')
+                ->label('Enrichment')
+                ->formatStateUsing(fn ($state) => is_scalar($state) ? (string) $state : json_encode($state)),
             Tables\Columns\TextColumn::make('normalized_payload')
                 ->label('Normalized Payload')
                 ->formatStateUsing(fn ($state) => is_scalar($state) ? (string) $state : json_encode($state)),

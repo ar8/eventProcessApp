@@ -55,16 +55,15 @@ class StatusTrackerNormalizer implements SourceNormalizer
     public function normalize(array $payload): array
     {
         
-        $normalizedData = ['tracking_number' => $payload['tracking_number'], 'status' => $payload['status'], 'type' => 'status_update'];
+        $normalizedData = ['tracking_number' => $payload['tracking_number'], 'tracking_status' => $payload['status'], 'type' => 'status_tracker'];
         $date = isset($payload['occurred_at']) ? Carbon::parse($payload['occurred_at']) : Carbon::now();
         $normalizedData['occurred_at'] = $date->toISOString();
 
         return [
             'external_id' => $payload['tracking_number'],
-            'email' => $payload['email'] ?? null,
             'status' => $payload['status'],
             'occurred_at' => $date->toDateTimeString(),
-            'type' => 'status_update',
+            'type' => 'status_tracker',
             'normalized_data' => $normalizedData,
         ];
     }

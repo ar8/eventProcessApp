@@ -1,0 +1,275 @@
+{
+  "info": {
+    "_postman_id": "4d525fbc-429d-4a18-ba0c-e48cf8bd87b3",
+    "name": "events-process-app",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "2309778"
+  },
+  "item": [
+    {
+      "name": "enrichment",
+      "item": [
+        {
+          "name": "enrinchment-form",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "secret-token-mock",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"type\": \"form_provider\",\n    \"event_id\": \"12345\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/fake-enrichment",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "fake-enrichment"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "enrinchment-payment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "secret-token-mock",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"type\": \"payment_gateway\",\n    \"event_id\": \"12345\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/fake-enrichment",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "fake-enrichment"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "enrinchment-status",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "secret-token-mock",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"type\": \"status_tracker\",\n    \"event_id\": \"12345\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/fake-enrichment",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "fake-enrichment"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "webhook",
+      "item": [
+        {
+          "name": "form_provider_call",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "secret-token-mock",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"submission_id\": \"abc123_TEST\",\n    \"email\": \"user@example.com\",\n    \"answers\": {\n        \"budget\": 1000,\n        \"timeline\": \"Q3 2024\",\n        \"interested_in\": [\"product_a\", \"product_b\"]\n    },\n    \"submitted_at\": \"2024-06-01T12:00:00Z\",\n    \"metadata\": {\n        \"source\": \"typeform\",\n        \"form_id\": \"form_456\"\n    }    \n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/webhooks/form_provider",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "webhooks",
+                "form_provider"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "payment_gateway_call",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "secret-token-mock",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"transaction\": {\n        \"id\": \"txn_123456_TEST\",\n        \"amount_cents\": 5000,\n        \"currency\": \"USD\",\n        \"occurred_at\": \"2024-06-01T12:00:00Z\",\n        \"status\": \"succeeded\",\n        \"provider\": \"paypal\"\n    },\n    \"customer_email\": \"user@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/webhooks/payment_gateway",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "webhooks",
+                "payment_gateway"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "status_tracker_call",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "secret-token-mock",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"tracking_number\": \"TRACK123456_TEST\",\n    \"status\": \"shipped\",\n    \"occurred_at\": \"2024-06-01T12:00:00Z\",\n    \"email\": \"user@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/webhooks/status_tracker",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "webhooks",
+                "status_tracker"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

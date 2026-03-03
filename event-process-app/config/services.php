@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'enrichment' => [
+        'url' => env('ENRICHMENT_API_URL', 'http://localhost/api/fake-enrichment'),
+        'token' => env('ENRICHMENT_API_TOKEN'),
+        'timeout' => (int) env('ENRICHMENT_API_TIMEOUT', 5),
+    ],
+
+
 ];

@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Facades\RateLimiter;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Define a rate limiter for the enrichment service to prevent overloading the external API
+        RateLimiter::for('enrichment-service', function (): Limit {
+            return Limit::perMinute(100)->by('enrichment-service-global');
+        });
     }
 }

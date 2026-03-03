@@ -12,6 +12,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use App\Services\EnrichmentService;
+use \App\Models\Event;
 use InvalidArgumentException;
 use Throwable;
 
@@ -39,7 +41,9 @@ class NormalizeEventJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $event = DB::table('events')->where('id', $this->eventId)->first();
+        Log::info('NormalizeEventJob started', ['event_id' => $this->eventId]);
+
+        $event = Event::where('id', $this->eventId)->first();
 
         if ($event === null) {
             Log::warning("Event not found", ['event_id' => $this->eventId]);
@@ -59,14 +63,20 @@ class NormalizeEventJob implements ShouldQueue
             $normalized = $normalizer->normalize($validated);
             $scoreRules =  new EventScoreRule();
             $score = $scoreRules->calculateScore($normalized['normalized_data'] ?? []);
+            // call to enrichment service to get additional data based on the normalized event, this is just a mock and can be replaced with actual enrichment logic
+            $enrichmentService = new EnrichmentService();
+            $enrichmentData = $enrichmentService->enrich($event);
+
+            // TODO: here enrichment with external data sources could be implemented before saving the normalized event
 
             DB::table('events')->where('id', $this->eventId)->update([
                 'external_id' => $normalized['external_id'] ?? null,
-                'email' => $normalized['email'] ?? null,
-                'status' => $normalized['status'] ?? 'processed',
+                'status' => 'processed',
                 'occurred_at' => $normalized['occurred_at'] ?? null,
                 'type' => $normalized['type'] ?? null,
                 'score' => $score,
+                'enrichment' => $enrichmentData,
+                'normalized_payload' => $normalized['normalized_data'] ?? null,
                 'error' => null,
                 'updated_at' => now(),
             ]);
@@ -88,6 +98,7 @@ class NormalizeEventJob implements ShouldQueue
                 ], JSON_THROW_ON_ERROR),
                 'updated_at' => now(),
             ]);
+            Log::error('NormalizeEventJob failed', ['event_id' => $this->eventId, 'error' => $exception->getMessage()]);
         } catch (Throwable $exception) {
             DB::table('events')->where('id', $this->eventId)->update([
                 'status' => 'failed',
@@ -97,6 +108,7 @@ class NormalizeEventJob implements ShouldQueue
                 ], JSON_THROW_ON_ERROR),
                 'updated_at' => now(),
             ]);
+            Log::error('NormalizeEventJob failed', ['event_id' => $this->eventId, 'error' => $exception->getMessage()]);
 
             throw $exception;
         }

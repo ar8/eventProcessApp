@@ -13,9 +13,12 @@ class Event extends Model
     protected $fillable = [
         'uuid',
         'external_id',
+        'type',
         'source',
         'raw_payload',
         'normalized_payload',
+        'occurred_at',
+        'enrichment',
         'status',
         'score',
         'error',
@@ -24,6 +27,8 @@ class Event extends Model
     protected $casts = [
         'raw_payload' => 'array',
         'normalized_payload' => 'array',
+        'enrichment' => 'array',
+        'occurred_at' => 'datetime',
     ];
 
     protected $dates = [
@@ -51,6 +56,7 @@ class Event extends Model
                     'error',
                     'raw_payload',
                     'normalized_payload',
+                    'enrichment',
                     'occurred_at',
                     'created_at',
                     'updated_at',
