@@ -5,7 +5,9 @@ Build a Laravel application that receives webhook events from external sources, 
 
 ## Local Setup Manual
 - create mysql database
-    - mysql -u root -p -e "CREATE DATABASE eventsdb;"
+    - mysql -u root -p -e "CREATE DATABASE eventsdb";
+    - MAMP: /Applications/MAMP/Library/bin/mysql80/bin/mysql -u root -p -P 8889 -h 127.0.0.1 -e "CREATE DATABASE eventsdb";
+        - find: find /Applications/MAMP -name mysql
 - .env content for database connection, add values based on you local database information
 ```
     DB_CONNECTION=mysql
@@ -18,8 +20,6 @@ Build a Laravel application that receives webhook events from external sources, 
     ENRICHMENT_API_URL=http://localhost:8000/api/enrichment-mock
     ENRICHMENT_API_TOKEN=secret-token-mock
     ENRICHMENT_API_TIMEOUT=5
-
-
 ```
 - You should move to event-process-app folder
     - `cd event-process-app`
@@ -48,28 +48,45 @@ Build a Laravel application that receives webhook events from external sources, 
 - queries in `queries.sql`
 
 # Local Setup Docker
-## Docker (one command)
+- `cd event-process-app`
 - build all service
     - `docker compose up --build`
 - install dependencies
     - `docker compose exec app composer install`
 - Migrations
     - `docker compose exec app php artisan migrate`
+    - connect in DBeaver:
+        - url: `jdbc:mysql://127.0.0.1:3307/events_db?allowPublicKeyRetrieval=true&useSSL=false`
+        - username: laravel
+        - password: laravel
+    - delete container volumn: `docker volume rm event-process-app_epa_mysql_data`
+- .env content for database connection, add values based on you local database information
+```
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=ravn_db
+DB_USERNAME=admin
+DB_PASSWORD=admin
+```
 - Seeders
     - `docker compose exec app php artisan db:seed`
 - Manual run vite(if need)
     - `docker compose exec node npm install`
     - `docker compose exec node npm run build`
+- run server
+	- `docker compose exec app php artisan serve`
 - access
     - `http://localhost:8000/events/events-dashboard`
     - user:test@example.com
     - pws: password123
+- stop containers
+    - `docker compose down`
 - Job commands
     - verify queue worker runner: `docker compose exec app php artisan queue:work`
     - trigger the job again: `docker compose exec app php artisan queue:retry all`
     - scores can be assign in the events list as well in the score button.
     - create rule button is for display only
-
 
 # CODE STRUCTURE
 ## Events Type
