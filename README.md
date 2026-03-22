@@ -32,9 +32,9 @@ Build a Laravel application that receives webhook events from external sources, 
 - run server
 	- `php artisan serve`
 - run frontend 
-    -  `npm install Installs`
-    -  `npm run dev`
-    -  `npm run build`
+    -  install: `npm install`
+    -  run dev mode: `npm run dev`
+    -  assets: `npm run build`
 - access to frontend 
     - `http://127.0.0.1:8000/events/events-dashboard`
 
