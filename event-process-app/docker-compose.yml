@@ -1,5 +1,3 @@
-version: '3.9'
-
 volumes:
   epa_mysql_data:
   epa_redis_data:
@@ -28,8 +26,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: events_db
-      MYSQL_USER: laravel
-      MYSQL_PASSWORD: laravel
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
     volumes:
       - epa_mysql_data:/var/lib/mysql
 

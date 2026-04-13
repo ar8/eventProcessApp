@@ -55,22 +55,33 @@ Build a Laravel application that receives webhook events from external sources, 
     - `docker compose exec app composer install`
 - Migrations
     - `docker compose exec app php artisan migrate`
+    - Seeders
+        - `docker compose exec app php artisan db:seed`
     - connect in DBeaver:
         - url: `jdbc:mysql://127.0.0.1:3307/events_db?allowPublicKeyRetrieval=true&useSSL=false`
-        - username: laravel
-        - password: laravel
+        - username: root
+        - password: root
+        - Enter the MySQL container:
+            - docker exec -it epa_mysql mysql -u root -p
+        - In the MySQL shell, run: 
+            - `GRANT ALL PRIVILEGES ON events_db.* TO 'laravel'@'%' IDENTIFIED BY 'laravel'; FLUSH PRIVILEGES;`
     - delete container volumn: `docker volume rm event-process-app_epa_mysql_data`
 - .env content for database connection, add values based on you local database information
 ```
 DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
-DB_DATABASE=ravn_db
-DB_USERNAME=admin
-DB_PASSWORD=admin
+DB_DATABASE=events_db
+DB_USERNAME=root
+DB_PASSWORD=root
 ```
-- Seeders
-    - `docker compose exec app php artisan db:seed`
+- redis configuration in .env
+```
+REDIS_CLIENT=phpredis
+REDIS_HOST=redis
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+```
 - Manual run vite(if need)
     - `docker compose exec node npm install`
     - `docker compose exec node npm run build`
@@ -80,13 +91,26 @@ DB_PASSWORD=admin
     - `http://localhost:8000/events/events-dashboard`
     - user:test@example.com
     - pws: password123
-- stop containers
+- stop and delete containers
     - `docker compose down`
-- Job commands
-    - verify queue worker runner: `docker compose exec app php artisan queue:work`
-    - trigger the job again: `docker compose exec app php artisan queue:retry all`
-    - scores can be assign in the events list as well in the score button.
-    - create rule button is for display only
+- delete volumes mysql
+    - `docker volume rm event-process-app_epa_mysql_data`
+
+## Job commands
+- verify queue worker runner: `docker compose exec app php artisan queue:work`
+- trigger the job again: `docker compose exec app php artisan queue:retry all`
+- scores can be assign in the events list as well in the score button.
+- create rule button is for display only
+
+## postman endpoint
+-  enrichement endpoints
+    - enrinchment-form:     For update enrichment for events of type `form_provider`
+    - enrinchment-payment:  For update enrichment for events of type `payment_gateway`
+    - enrinchment-status:   For update enrichment for events oftype `status_tracker`
+- webhook endpoint
+    - form_provider_call:    Accepts incoming webhook requests for the `form_provider`
+    - payment_gateway_call:  Accepts incoming webhook requests for the `payment_gateway`
+    - status_tracker:        Accepts incoming webhook requests for the `status_tracker`
 
 # CODE STRUCTURE
 ## Events Type
@@ -126,8 +150,6 @@ DB_PASSWORD=admin
 		- app/Filament/Events/Widgets/EventsTableWidget.php
 	- providers
 		- app/Providers/Filament/EventsPanelProvider.php
-8. Postman
-	-
 
 ## Core Process Elements
 1. Jobs 
